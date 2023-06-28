@@ -69,11 +69,6 @@ export function Corridor() {
 			max: 1,
 			value: 0.5,
 		},
-		multiplier: {
-			min: 1,
-			max: 142,
-			value: 42,
-		},
 		colorA: "#48a11d",
 		colorB: "#82f55c",
 	});
@@ -97,7 +92,8 @@ export function Corridor() {
 					<planeShaderMaterial
 						//@ts-ignore
 						uAlpha={stripesControls.alpha}
-						uMultiplier={stripesControls.multiplier}
+						// uMultiplier={stripesControls.multiplier}
+						uMultiplier={32}
 						uColorA={stripesControls.colorA}
 						uColorB={stripesControls.colorB}
 					/>
@@ -107,7 +103,8 @@ export function Corridor() {
 					<planeShaderMaterial
 						//@ts-ignore
 						uAlpha={stripesControls.alpha}
-						uMultiplier={stripesControls.multiplier}
+						// uMultiplier={stripesControls.multiplier}
+						uMultiplier={32}
 						uColorA={stripesControls.colorA}
 						uColorB={stripesControls.colorB}
 					/>
@@ -118,7 +115,8 @@ export function Corridor() {
 					<planeShaderMaterial
 						//@ts-ignore
 						uAlpha={stripesControls.alpha}
-						uMultiplier={stripesControls.multiplier}
+						// uMultiplier={stripesControls.multiplier}
+						uMultiplier={32}
 						uColorA={stripesControls.colorA}
 						uColorB={stripesControls.colorB}
 					/>
@@ -129,7 +127,8 @@ export function Corridor() {
 					<planeShaderMaterial
 						//@ts-ignore
 						uAlpha={stripesControls.alpha}
-						uMultiplier={stripesControls.multiplier}
+						// uMultiplier={stripesControls.multiplier}
+						uMultiplier={32}
 						uColorA={stripesControls.colorA}
 						uColorB={stripesControls.colorB}
 					/>
@@ -141,7 +140,8 @@ export function Corridor() {
 				<planeShaderMaterial
 					//@ts-ignore
 					uAlpha={stripesControls.alpha}
-					uMultiplier={stripesControls.multiplier}
+					// uMultiplier={stripesControls.multiplier}
+					uMultiplier={32}
 					uColorA={stripesControls.colorA}
 					uColorB={stripesControls.colorB}
 				/>

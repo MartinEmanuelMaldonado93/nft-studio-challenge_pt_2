@@ -17,7 +17,7 @@ export default function CanvasGallery() {
 			<Canvas
 				ref={canvasRef}
 				className={style.canvas}
-				camera={{ far: 500, fov: 80, position: [0, 0.5, 4] }}
+				camera={{ far: 500, fov: 80, position: [0, 0.3, 4] }}
 				gl={{ antialias: true }}
 			>
 				<ambientLight intensity={0.01} />

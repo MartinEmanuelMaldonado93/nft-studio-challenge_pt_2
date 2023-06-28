@@ -1,4 +1,5 @@
-Code challenge of nft studios 2023
+Code challenge of nft studios 2023 PART 2
+
 
 Stack 🧰
 - React & Next.js 13.4
