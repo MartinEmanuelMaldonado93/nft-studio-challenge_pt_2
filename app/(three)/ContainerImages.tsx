@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { MeshProps, useFrame, useLoader } from "@react-three/fiber";
-import { Color, Group, Mesh, TextureLoader, Vector3 } from "three";
+import { Color, Group, MathUtils, Mesh, TextureLoader, Vector3 } from "three";
 import { useScroll } from "@react-three/drei";
 import useSWR, { useSWRConfig } from "swr";
 import { Artwork_SR } from "./(types)/types";
@@ -9,9 +9,13 @@ import { artwork_data } from "./(constants)/data";
 import style from "./container.module.scss";
 import { motion } from "framer-motion-3d";
 import { getRandomPosition, randomPos } from "./(helpers)";
+import { smoothstep } from "three/src/math/MathUtils";
+const { lerp } = MathUtils;
 
 export default function ContainerImages() {
 	const containerRef = useRef<Group>(null!);
+	const [movement] = useState(() => new Vector3());
+	const [temp] = useState(() => new Vector3());
 	const scroll = useScroll();
 	const [img, setImg] = useState<Artwork_SR[]>();
 	const static_img = [
@@ -44,8 +48,25 @@ export default function ContainerImages() {
 	// 		console.log(imgs);
 	// 	})();
 	// }, [data]);
-
+	
+	const rads = MathUtils.degToRad(20);
+	const smooth = 0.1;
 	useFrame((state, delta) => {
+		movement.lerp(temp.set(state.mouse.x, state.mouse.y * 0.2, 0), 0.2);
+		// rotation ↓ ↑
+		containerRef.current.rotation.x = lerp(
+			containerRef.current.rotation.x,
+			-(state.mouse.y / 10),
+			0.5 * delta
+		);
+		// rotation ← →
+		containerRef.current.rotation.y = lerp(
+			containerRef.current.rotation.y,
+			state.mouse.x / 4,
+			// smoothstep()
+			0.5 * delta
+		);
+
 		if (containerRef.current) {
 			const prev = containerRef.current.position.z;
 			containerRef.current.position.setZ(prev + scroll.delta);

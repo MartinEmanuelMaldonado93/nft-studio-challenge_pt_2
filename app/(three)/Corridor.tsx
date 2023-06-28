@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
 	Object3DNode,
 	ShaderMaterialProps,
@@ -11,20 +11,17 @@ import {
 	DoubleSide,
 	Group,
 	IUniform,
+	MathUtils,
 	Mesh,
 	MeshStandardMaterial,
 	ShaderMaterial,
 	Vector3,
 } from "three";
 import { useControls } from "leva";
-import {
-	OrbitControls,
-	Sparkles,
-	shaderMaterial,
-	useScroll,
-} from "@react-three/drei";
+import { Plane, Sparkles, shaderMaterial, useScroll } from "@react-three/drei";
 import ContainerImages from "./ContainerImages";
 import { PlaneShaderMaterial } from "./PlaneShaderMaterial";
+import { LayerMaterialC } from "./LayerMaterial";
 
 extend({ PlaneShaderMaterial });
 
@@ -138,9 +135,7 @@ export function Corridor() {
 			{/* background - fixed */}
 			<mesh rotation={[0, 0, 0]} position={[0, 0, -4]}>
 				<planeShaderMaterial
-					//@ts-ignore
 					uAlpha={stripesControls.alpha}
-					// uMultiplier={stripesControls.multiplier}
 					uMultiplier={32}
 					uColorA={stripesControls.colorA}
 					uColorB={stripesControls.colorB}

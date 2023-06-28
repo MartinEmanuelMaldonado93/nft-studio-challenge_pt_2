@@ -1,8 +1,16 @@
 "use client";
 import { Object3DNode } from "@react-three/fiber";
-import { Color, ShaderMaterial } from "three";
+import { Color, ShaderMaterial, Texture } from "three";
 import { shaderMaterial } from "@react-three/drei";
 
+type PlaneShaderMaterial = {
+	uAlpha: number;
+	uMultiplier: number;
+	uColorA: Color;
+	uColorB: Color;
+	uColorC: Color;
+	uTime: number;
+} & { key: string } & JSX.IntrinsicElements["shaderMaterial"];
 
 export const PlaneShaderMaterial = shaderMaterial(
 	{
@@ -37,13 +45,11 @@ export const PlaneShaderMaterial = shaderMaterial(
 		`
 );
 
-// class MyPlaneShaderMaterial extends ShaderMaterial  {}
-
 declare module "@react-three/fiber" {
 	interface ThreeElements {
 		planeShaderMaterial: Object3DNode<
-			typeof PlaneShaderMaterial,
-			typeof PlaneShaderMaterial
+			PlaneShaderMaterial,
+			PlaneShaderMaterial
 		>;
 	}
 }
