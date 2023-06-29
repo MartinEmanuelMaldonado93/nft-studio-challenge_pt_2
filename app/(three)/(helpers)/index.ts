@@ -45,3 +45,28 @@ export function getRandomPosition(): Vector3 {
 
 	return new Vector3(x, y, z);
 }
+
+
+export function getInitialPosition() {
+	let rangeX = 4.5;
+	let rangeY = 1.5;
+	let rangeZ = 6;
+	let x: number, y: number, z: number;
+	x = Math.random() * rangeX - rangeX / 2; //2.5
+	y = Math.random() * rangeY - 0.4; // 0.5 base floor
+	z = Math.random() * rangeZ - 2.5 - rangeZ / 2;
+	let vecResult = new Vector3(x, y, z);
+	
+	const bound = 0.5;
+	if (vecResult.x < 0) vecResult.x -= bound;
+	if (vecResult.x > 0) vecResult.x += bound;
+	
+	return vecResult;
+}
+
+
+// let v = new Vector3(
+// 	(Math.random() * 2 - 1) * 3,
+// 	Math.random() * 2.5 + 0.1,
+// 	(Math.random() * 2 - 1) * 15
+// );

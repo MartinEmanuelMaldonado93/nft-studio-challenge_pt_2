@@ -1,22 +1,18 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { MeshProps, useFrame, useLoader } from "@react-three/fiber";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { Color, Group, MathUtils, Mesh, TextureLoader, Vector3 } from "three";
 import { useScroll } from "@react-three/drei";
 import useSWR, { useSWRConfig } from "swr";
 import { Artwork_SR } from "./(types)/types";
-import { artwork_data } from "./(constants)/data";
-import style from "./container.module.scss";
 import { motion } from "framer-motion-3d";
-import { getRandomPosition, randomPos } from "./(helpers)";
-import { smoothstep } from "three/src/math/MathUtils";
+import { getInitialPosition, getRandomPosition, randomPos } from "./(helpers)";
+import { clamp, smoothstep } from "three/src/math/MathUtils";
 const { lerp } = MathUtils;
 
 export default function ContainerImages() {
 	const containerRef = useRef<Group>(null!);
-	const [movement] = useState(() => new Vector3());
 	const [temp] = useState(() => new Vector3());
-	const scroll = useScroll();
 	const [img, setImg] = useState<Artwork_SR[]>();
 	const static_img = [
 		"nft0.jpg",
@@ -48,11 +44,10 @@ export default function ContainerImages() {
 	// 		console.log(imgs);
 	// 	})();
 	// }, [data]);
-	
+
 	const rads = MathUtils.degToRad(20);
 	const smooth = 0.1;
 	useFrame((state, delta) => {
-		movement.lerp(temp.set(state.mouse.x, state.mouse.y * 0.2, 0), 0.2);
 		// rotation ↓ ↑
 		containerRef.current.rotation.x = lerp(
 			containerRef.current.rotation.x,
@@ -63,17 +58,8 @@ export default function ContainerImages() {
 		containerRef.current.rotation.y = lerp(
 			containerRef.current.rotation.y,
 			state.mouse.x / 4,
-			// smoothstep()
 			0.5 * delta
 		);
-
-		if (containerRef.current) {
-			const prev = containerRef.current.position.z;
-			containerRef.current.position.setZ(prev + scroll.delta);
-			if (prev > 5) {
-				containerRef.current.position.setZ(1);
-			}
-		}
 	});
 
 	return (
@@ -82,7 +68,7 @@ export default function ContainerImages() {
 				<PlaneImage
 					key={Math.random().toString()}
 					img_url={url}
-					pos={getRandomPosition()}
+					// pos={getRandomPosition()}
 				/>
 			))}
 			{randomPos.map((pos, i) => (
@@ -96,28 +82,42 @@ export default function ContainerImages() {
 	);
 }
 
-function PlaneImage({ img_url, pos }: { img_url: string; pos: Vector3 }) {
-	const meshRef = useRef<MeshProps>(null!);
-	const colorMap = useLoader(TextureLoader, img_url);
+function PlaneImage({ img_url, pos }: { img_url: string; pos?: Vector3 }) {
+	const meshRef = useRef<Mesh>(null!);
+	const texture = useLoader(TextureLoader, img_url);
+	const scroll = useScroll();
 	const [isHovered, setHovered] = useState(false);
-	const transparentColor = new Color(0xffffff);
-	transparentColor.set(transparentColor.getHex() + "00"); // '00' para el canal alfa a 0 (transparente)
+	const initialPosition = useMemo(() => getInitialPosition(), []);
+
+	useFrame(() => {
+		if (!meshRef.current) return;
+		let prev = meshRef.current.position.z;
+		meshRef.current.position.setZ(prev + scroll.delta);
+		if (meshRef.current.position.z > 4) {
+			meshRef.current.position.set(
+				initialPosition.x,
+				initialPosition.y,
+				initialPosition.z
+			);
+		}
+	});
 
 	return (
 		<motion.mesh
+			castShadow
+			//@ts-ignore
 			ref={meshRef}
-			position={pos}
-			rotation={[0, 0, pos.x < 0 ? 0.03 : -0.05]}
+			position={initialPosition}
+			rotation={[0, 0, initialPosition.x < 0 ? 0.03 : -0.05]}
 			onPointerOver={() => setHovered(true)}
 			onPointerOut={() => setHovered(false)}
-			whileTap={{ scale: 1.2 }}
-			whileHover={{ rotateZ: 0 }}
+			whileHover={{ rotateZ: 0, scale: 1.2 }}
 			transition={{ damping: 4 }}
 		>
-			<planeBufferGeometry args={[0.6, 1, 1]} />
+			<planeGeometry args={[0.6, 1, 1]} />
 			<motion.meshBasicMaterial
-				map={colorMap}
-				color={isHovered ? "hotpink" : transparentColor}
+				map={texture}
+				opacity={1}
 				transition={{ stiffness: 50 }}
 			/>
 		</motion.mesh>
