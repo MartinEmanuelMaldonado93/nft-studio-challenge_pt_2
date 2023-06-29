@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { GridHelper } from "three";
-import { Object3DNode, extend } from "@react-three/fiber";
+import { Object3DNode, extend, useThree } from "@react-three/fiber";
 import {
 	EffectComposer,
 	DepthOfField,
@@ -10,9 +10,10 @@ import { useControls } from "leva";
 import { BlendFunction } from "postprocessing";
 
 export default function EffectsProcessing() {
+	const { viewport } = useThree((state) => state);
 	const config = useControls({
-		focusDistance: { value: 0.0, min: 0.0, max: 1.0 },
-		bokeScale: 1.2,
+		focusDistance: { value: 0.0, min: 0.0, max: 4.0 },
+		bokeScale: { value: 1.2, min: 0, max: 10 },
 		height: 450,
 		focalLength: { value: 0.02, min: 0.0, max: 1.0 },
 	});
@@ -28,8 +29,7 @@ export default function EffectsProcessing() {
 				// bokehScale={config.bokeScale}
 				focusDistance={0.0}
 				focalLength={0.02}
-				bokehScale={1.2}
-				height={config.height} // todo : use the viewport
+				bokehScale={3}
 			/>
 			<Vignette
 				offset={0.57}
