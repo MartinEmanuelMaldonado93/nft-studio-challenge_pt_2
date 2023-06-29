@@ -9,20 +9,19 @@ import { motion } from "framer-motion-3d";
 import { getInitialPosition, getRandomPosition, randomPos } from "./(helpers)";
 import { clamp, smoothstep } from "three/src/math/MathUtils";
 const { lerp } = MathUtils;
-
+const static_img = [
+	"nft0.jpg",
+	"nft1.jpg",
+	"nft2.jpg",
+	"nft3.jpg",
+	"nft4.jpg",
+	"nft5.jpg",
+	"nft6.jpg",
+];
 export default function ContainerImages() {
 	const containerRef = useRef<Group>(null!);
 	const [temp] = useState(() => new Vector3());
 	const [img, setImg] = useState<Artwork_SR[]>();
-	const static_img = [
-		"nft0.jpg",
-		"nft1.jpg",
-		"nft2.jpg",
-		"nft3.jpg",
-		"nft4.jpg",
-		"nft5.jpg",
-		"nft6.jpg",
-	];
 	// const { data, error, isLoading } = useSWR("artists", () =>
 	// 	fetch(
 	// 		"https://most-expensive-nft-artworks.p.rapidapi.com/artworks?page=1&sort=usd_price",
@@ -44,7 +43,6 @@ export default function ContainerImages() {
 	// 		console.log(imgs);
 	// 	})();
 	// }, [data]);
-
 	const rads = MathUtils.degToRad(20);
 	const smooth = 0.1;
 	useFrame((state, delta) => {
@@ -68,21 +66,19 @@ export default function ContainerImages() {
 				<PlaneImage
 					key={Math.random().toString()}
 					img_url={url}
-					// pos={getRandomPosition()}
 				/>
 			))}
 			{randomPos.map((pos, i) => (
 				<PlaneImage
 					key={Math.random().toString()}
 					img_url="/nft0.jpg"
-					pos={pos}
 				/>
 			))}
 		</group>
 	);
 }
 
-function PlaneImage({ img_url, pos }: { img_url: string; pos?: Vector3 }) {
+function PlaneImage({ img_url}: { img_url: string; }) {
 	const meshRef = useRef<Mesh>(null!);
 	const texture = useLoader(TextureLoader, img_url);
 	const scroll = useScroll();
@@ -108,7 +104,11 @@ function PlaneImage({ img_url, pos }: { img_url: string; pos?: Vector3 }) {
 			//@ts-ignore
 			ref={meshRef}
 			position={initialPosition}
-			rotation={[0, 0, initialPosition.x < 0 ? 0.03 : -0.05]}
+			rotation={[
+				0,
+				0,
+				initialPosition.x < 0 ? Math.random() * 0.3 : Math.random() * -0.3,
+			]}
 			onPointerOver={() => setHovered(true)}
 			onPointerOut={() => setHovered(false)}
 			whileHover={{ rotateZ: 0, scale: 1.2 }}

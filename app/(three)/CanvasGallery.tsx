@@ -7,6 +7,7 @@ import style from "./CanvasGallery.module.scss";
 import { useControls } from "leva";
 import { Corridor } from "./Corridor";
 import ContainerImages from "./ContainerImages";
+import EffectsProcessing from "./Effects";
 
 export default function CanvasGallery() {
 	const canvasRef = useRef<HTMLCanvasElement>(null!);
@@ -31,6 +32,7 @@ export default function CanvasGallery() {
 				{/** If PerfMon detects a low framerate it will switch back to harsh shadows */}
 				{/* <PerformanceMonitor onDecline={() => enable(false)} /> */}
 				{/* <OrbitControls /> */}
+				<EffectsProcessing />
 			</Canvas>
 			<Loader />
 		</>

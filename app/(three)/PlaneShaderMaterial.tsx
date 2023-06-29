@@ -17,7 +17,7 @@ type PlaneShaderMaterial = {
 export const PlaneShaderMaterial = shaderMaterial(
 	{
 		uAlpha: 0.5,
-		uMultiplier: 42,
+		uMultiplier: 32,
 		uColorA: new Color(0x48a11d),
 		uColorB: new Color(0x48a11d),
 		uColorC: new Color(0x000000),

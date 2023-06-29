@@ -13,5 +13,5 @@ void main() {
 
 	vec3 mixColor = mix(uColorA, uColorB, step(0.5, mulvUv.y) * step(0.5, mulvUv.x));
 	
-	gl_FragColor.rgba = vec4(mixColor, min(strength, uAlpha));
+	gl_FragColor.rgba = vec4(mixColor, uAlpha);
 }

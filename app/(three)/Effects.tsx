@@ -11,38 +11,31 @@ import { BlendFunction } from "postprocessing";
 
 export default function EffectsProcessing() {
 	const config = useControls({
-		focusDistance: 0,
+		focusDistance: { value: 0.0, min: 0.0, max: 1.0 },
 		bokeScale: 1.2,
 		height: 450,
-		focalLength: 0.02,
+		focalLength: { value: 0.02, min: 0.0, max: 1.0 },
 	});
+	// const v = useControls({
+	// 	offset: 0.5,
+	// 	darkness: 0.5,
+	// });
 	return (
-		<EffectComposer disableNormalPass>
+		<EffectComposer>
 			<DepthOfField
-				focusDistance={config.focusDistance}
-				focalLength={config.focalLength}
-				bokehScale={config.bokeScale}
-				height={config.height}
+				// focusDistance={config.focusDistance}
+				// focalLength={config.focalLength}
+				// bokehScale={config.bokeScale}
+				focusDistance={0.0}
+				focalLength={0.02}
+				bokehScale={1.2}
+				height={config.height} // todo : use the viewport
 			/>
 			<Vignette
-				offset={0.5} // vignette offset
-				darkness={0.5} // vignette darkness
-				eskil={false} // Eskil's vignette technique
-				blendFunction={BlendFunction.NORMAL} // blend mode
+				offset={0.57}
+				darkness={0.46}
+				//blendFunction={BlendFunction.NORMAL} // blend mode
 			/>
 		</EffectComposer>
 	);
 }
-
-// // Create our custom element
-// class CustomElement extends GridHelper {}
-
-// // Extend so the reconciler will learn about it
-// extend({ CustomElement });
-// // <customElement />
-// // Add types to ThreeElements elements so primitives pick up on it
-// declare module "@react-three/fiber" {
-// 	interface ThreeElements {
-// 		customElement: Object3DNode<CustomElement, typeof CustomElement>;
-// 	}
-// }

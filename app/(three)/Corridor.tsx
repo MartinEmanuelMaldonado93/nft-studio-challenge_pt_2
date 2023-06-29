@@ -28,13 +28,13 @@ extend({ PlaneShaderMaterial });
 export function Corridor() {
 	const corridorRef = useRef<Group>(null!);
 	const shaderRef = useRef<any>(null!);
-	const data = useScroll();
+	const scroll = useScroll();
 
 	useFrame((state, delta) => {
 		if (corridorRef.current) {
-			const offset = data.offset.toFixed(2);
-			const prev = corridorRef.current.position.z;
-			corridorRef.current.position.setZ(Number(offset));
+			const offset = scroll.offset.toFixed(2);
+			//const prev = corridorRef.current.position.z;
+			corridorRef.current.position.setZ(+offset);
 		}
 		if (shaderRef.current) {
 			shaderRef.current.uTime = state.clock.elapsedTime;
@@ -44,20 +44,20 @@ export function Corridor() {
 	useEffect(() => {
 		/** Custom scroll event that inverts scroll direction effect */
 		function Scroll(event: Event) {
-			const { scrollTop, clientHeight, scrollHeight } = data.el;
+			const { scrollTop, clientHeight, scrollHeight } = scroll.el;
 			const diff = Math.floor(scrollTop + clientHeight) - scrollHeight;
 
 			if (diff < 0 && diff > -1.5) {
-				const damp = 1 - data.offset;
-				data.el.scrollTop = data.offset = -damp;
+				const damp = 1 - scroll.offset;
+				scroll.el.scrollTop = scroll.offset = -damp;
 			}
 		}
 
-		data.el.addEventListener("scroll", Scroll, {
+		scroll.el.addEventListener("scroll", Scroll, {
 			passive: true,
 		});
 
-		return () => data.el.removeEventListener("scroll", Scroll);
+		return () => scroll.el.removeEventListener("scroll", Scroll);
 	}, []);
 
 	const stripesControls = useControls("stripes", {
@@ -71,10 +71,10 @@ export function Corridor() {
 	});
 	const sparklesControls = useControls("sparkles", {
 		count: 100,
-		speed: 1,
+		speed: 0.7,
 		opacity: 1,
 		color: "white",
-		scale: [3, 2, 5],
+		scale: [3, 1, 5],
 		position: [0, 0, 1],
 	});
 	const largeBottomTop = 6;
@@ -85,11 +85,10 @@ export function Corridor() {
 			<group ref={corridorRef}>
 				{/* bottom */}
 				<mesh position={[0, -1.5, 0]} rotation={[-(Math.PI / 2), 0, 0]}>
-					<planeBufferGeometry args={[largeBottomTop, largeSides, 3]} />
+					<planeGeometry  args={[largeBottomTop, largeSides, 3]} />
 					<planeShaderMaterial
-						//@ts-ignore
+						 
 						uAlpha={stripesControls.alpha}
-						// uMultiplier={stripesControls.multiplier}
 						uMultiplier={32}
 						uColorA={stripesControls.colorA}
 						uColorB={stripesControls.colorB}
@@ -97,39 +96,33 @@ export function Corridor() {
 				</mesh>
 				{/* top */}
 				<mesh position={[0, 1.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
-					<planeShaderMaterial
-						//@ts-ignore
-						uAlpha={stripesControls.alpha}
-						// uMultiplier={stripesControls.multiplier}
+					<planeShaderMaterial 
+						uAlpha={stripesControls.alpha} 
 						uMultiplier={32}
 						uColorA={stripesControls.colorA}
 						uColorB={stripesControls.colorB}
 					/>
-					<planeBufferGeometry args={[largeBottomTop, largeSides, 3]} />
+					<planeGeometry args={[largeBottomTop, largeSides, 3]} />
 				</mesh>
 				{/* left */}
 				<mesh rotation={[0, Math.PI / 2, 0]} position={[-3.0, 0, 0]}>
-					<planeShaderMaterial
-						//@ts-ignore
-						uAlpha={stripesControls.alpha}
-						// uMultiplier={stripesControls.multiplier}
+					<planeShaderMaterial 
+						uAlpha={stripesControls.alpha} 
 						uMultiplier={32}
 						uColorA={stripesControls.colorA}
 						uColorB={stripesControls.colorB}
 					/>
-					<planeBufferGeometry args={[largeSides, 3, 3]} />
+					<planeGeometry args={[largeSides, 3, 3]} />
 				</mesh>
 				{/* right */}
 				<mesh rotation={[0, -(Math.PI / 2), 0]} position={[3, 0, 0]}>
-					<planeShaderMaterial
-						//@ts-ignore
-						uAlpha={stripesControls.alpha}
-						// uMultiplier={stripesControls.multiplier}
+					<planeShaderMaterial 
+						uAlpha={stripesControls.alpha} 
 						uMultiplier={32}
 						uColorA={stripesControls.colorA}
 						uColorB={stripesControls.colorB}
 					/>
-					<planeBufferGeometry args={[largeSides, 3, 3]} />
+					<planeGeometry args={[largeSides, 3, 3]} />
 				</mesh>
 			</group>
 			{/* background - fixed */}
@@ -140,7 +133,7 @@ export function Corridor() {
 					uColorA={stripesControls.colorA}
 					uColorB={stripesControls.colorB}
 				/>
-				<planeBufferGeometry args={[6, 3, 3]} />
+				<planeGeometry args={[6, 3, 3]} />
 			</mesh>
 			<Sparkles
 				color={sparklesControls.color}

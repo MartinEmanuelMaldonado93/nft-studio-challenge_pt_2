@@ -54,10 +54,10 @@ export function getInitialPosition() {
 	let x: number, y: number, z: number;
 	x = Math.random() * rangeX - rangeX / 2; //2.5
 	y = Math.random() * rangeY - 0.4; // 0.5 base floor
-	z = Math.random() * rangeZ - 2.5 - rangeZ / 2;
+	z = Math.random() * rangeZ - 1 - rangeZ / 2;
 	let vecResult = new Vector3(x, y, z);
 	
-	const bound = 0.5;
+	const bound = 0.4;
 	if (vecResult.x < 0) vecResult.x -= bound;
 	if (vecResult.x > 0) vecResult.x += bound;
 	
