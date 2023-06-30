@@ -1,6 +1,5 @@
 Code challenge of nft studios 2023 PART 2
 
-
 Stack 🧰
 - React & Next.js 13.4
 - TypeScript
@@ -11,12 +10,16 @@ Stack 🧰
 - React-Three-Fiber
 - Shaders GLSL
 
-variant of project using face controls! : face_controls branch
+PART 2 fix
+-Infinite photos apearing
+-Post-processing
+-Slightly rotation by the mouse movement
+-Types of shader materials, so less //@ts-ignore
 
-the idea was copy this beautifull design made by gucci and super rare team :
+the idea was a copy of this beautifull design made by gucci and super rare team :
 https://drive.google.com/file/d/17-m_WiYtYz1GQF5ntpEi4mGMeRcm6qMv/view
 
-my demo link : https://nft-studio-challenge.vercel.app/
+my demo link :  
 
 
 ## To run the project
