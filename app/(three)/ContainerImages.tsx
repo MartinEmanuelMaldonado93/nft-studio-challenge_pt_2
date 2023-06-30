@@ -19,7 +19,6 @@ import {
 	getInitialPosition,
 } from "./(helpers)";
 import { clamp, smoothstep } from "three/src/math/MathUtils";
-import { getImagesData_Server } from "../serverActions";
 import { static_img } from "./(constants)/static";
 const { lerp } = MathUtils;
 
