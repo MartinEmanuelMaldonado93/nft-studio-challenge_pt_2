@@ -1,5 +1,11 @@
 "use client";
-import { Loader, OrbitControls, PerformanceMonitor, Scroll, ScrollControls } from "@react-three/drei";
+import {
+	Loader,
+	OrbitControls,
+	PerformanceMonitor,
+	Scroll,
+	ScrollControls,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import { Mesh } from "three";
@@ -22,7 +28,7 @@ export default function CanvasGallery() {
 			>
 				<ambientLight intensity={0.01} />
 				<fog attach="fog" args={[0x000000, 1, 9]} />
-				<ScrollControls infinite>
+				<ScrollControls infinite eps={0.01} damping={0.4}>
 					<Scroll>
 						<Corridor />
 						<ContainerImages />

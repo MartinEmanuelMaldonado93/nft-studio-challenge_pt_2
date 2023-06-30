@@ -42,8 +42,7 @@ export default function ContainerImages() {
 		);
 	});
 
-
-	const fillNumber = AMOUNT_PHOTOS - static_img.length;// 8
+	const fillNumber = AMOUNT_PHOTOS - static_img.length; // 8
 	const restPhotosArr = generateRandomPositions({ count: fillNumber });
 	const randIndex = Math.floor(Math.random() * static_img.length);
 
@@ -69,11 +68,28 @@ function PlaneImage({ img_url }: { img_url: string }) {
 	const [isHovered, setHovered] = useState(false);
 	const initialPosition = useMemo(() => getInitialPosition(), []);
 
+	// increment
 	useFrame(() => {
-		if (!meshRef.current) return;
-		let prev = meshRef.current.position.z;
-		meshRef.current.position.setZ(prev + scroll.delta);
-		if (meshRef.current.position.z > 4) {
+		if (meshRef.current) {
+			//console.log(scroll.delta);
+			let prev = meshRef.current.position.z;
+			//const offset = scroll.offset + initialPosition.z;
+			const deltaValue = scroll.delta > 0 ? scroll.delta + 1 : scroll.delta - 1;
+			//avanzo
+			// const offset = prev * (scroll.offset + 1); // by 1
+			const offset = scroll.offset + 1; //  xxxxxxxxxxxxx
+			meshRef.current.position.setZ((prev + scroll.delta));
+			// meshRef.current.position.setZ(prev);
+			// meshRef.current.position.setZ(offset);
+			
+			//if(scroll.offset < 0 ) doesn't work
+			if (scroll.delta < 0) {
+				// meshRef.current.position.setZ(prev - (scroll.delta - 1)); //xxxxxxxxxxxx
+				meshRef.current.position.setZ(prev - 0.1);
+			}
+		}
+		if (meshRef.current.position.z > 5) {
+			//console.log("reset plane")
 			meshRef.current.position.set(
 				initialPosition.x,
 				initialPosition.y,
@@ -99,11 +115,7 @@ function PlaneImage({ img_url }: { img_url: string }) {
 			transition={{ damping: 4 }}
 		>
 			<planeGeometry args={[0.6, 1, 1]} />
-			<motion.meshBasicMaterial
-				map={texture}
-				opacity={1}
-				transition={{ stiffness: 50 }}
-			/>
+			<motion.meshBasicMaterial map={texture} />
 		</motion.mesh>
 	);
 }

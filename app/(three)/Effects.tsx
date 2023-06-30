@@ -11,12 +11,12 @@ import { BlendFunction } from "postprocessing";
 
 export default function EffectsProcessing() {
 	const { viewport } = useThree((state) => state);
-	const config = useControls({
-		focusDistance: { value: 0.0, min: 0.0, max: 4.0 },
-		bokeScale: { value: 1.2, min: 0, max: 10 },
-		height: 450,
-		focalLength: { value: 0.02, min: 0.0, max: 1.0 },
-	});
+	// const config = useControls({
+	// 	focusDistance: { value: 0.0, min: 0.0, max: 4.0 },
+	// 	bokeScale: { value: 1.2, min: 0, max: 10 },
+	// 	height: 450,
+	// 	focalLength: { value: 0.02, min: 0.0, max: 1.0 },
+	// });
 	// const v = useControls({
 	// 	offset: 0.5,
 	// 	darkness: 0.5,
