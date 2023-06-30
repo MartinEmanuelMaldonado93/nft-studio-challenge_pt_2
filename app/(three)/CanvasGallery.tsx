@@ -19,7 +19,6 @@ export default function CanvasGallery() {
 				ref={canvasRef}
 				className={style.canvas}
 				camera={{ far: 500, fov: 80, position: [0, 0.3, 4] }}
-				gl={{ antialias: true }}
 			>
 				<ambientLight intensity={0.01} />
 				<fog attach="fog" args={[0x000000, 1, 9]} />

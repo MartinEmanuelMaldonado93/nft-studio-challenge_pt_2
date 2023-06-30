@@ -1,56 +1,39 @@
 "use client";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { Color, Group, MathUtils, Mesh, TextureLoader, Vector3 } from "three";
-import { useScroll } from "@react-three/drei";
-import useSWR, { useSWRConfig } from "swr";
+import {
+	CanvasTexture,
+	Color,
+	Group,
+	MathUtils,
+	Mesh,
+	TextureLoader,
+	Vector3,
+} from "three";
+import { useScroll, useTexture } from "@react-three/drei";
 import { Artwork_SR } from "./(types)/types";
 import { motion } from "framer-motion-3d";
-import { getInitialPosition, getRandomPosition, randomPos } from "./(helpers)";
+import {
+	AMOUNT_PHOTOS,
+	generateRandomPositions,
+	getInitialPosition,
+} from "./(helpers)";
 import { clamp, smoothstep } from "three/src/math/MathUtils";
+import { getImagesData_Server } from "../serverActions";
+import { static_img } from "./(constants)/static";
 const { lerp } = MathUtils;
-const static_img = [
-	"nft0.jpg",
-	"nft1.jpg",
-	"nft2.jpg",
-	"nft3.jpg",
-	"nft4.jpg",
-	"nft5.jpg",
-	"nft6.jpg",
-];
+
 export default function ContainerImages() {
 	const containerRef = useRef<Group>(null!);
 	const [temp] = useState(() => new Vector3());
 	const [img, setImg] = useState<Artwork_SR[]>();
-	// const { data, error, isLoading } = useSWR("artists", () =>
-	// 	fetch(
-	// 		"https://most-expensive-nft-artworks.p.rapidapi.com/artworks?page=1&sort=usd_price",
-	// 		{
-	// 			method: "GET",
-	// 			headers: {
-	// 				"X-RapidAPI-Key":
-	// 					"617e3a44bfmsh068af74f6f9a92bp19a375jsn678322e5767d",
-	// 				"X-RapidAPI-Host": "most-expensive-nft-artworks.p.rapidapi.com",
-	// 			},
-	// 		}
-	// 	)
-	// );
 
-	// useEffect(() => {
-	// 	(async () => {
-	// 		const imgs: Artwork_SR[] = await data?.json();
-	// 		img && setImg(img);
-	// 		console.log(imgs);
-	// 	})();
-	// }, [data]);
-	const rads = MathUtils.degToRad(20);
-	const smooth = 0.1;
 	useFrame((state, delta) => {
 		// rotation ↓ ↑
 		containerRef.current.rotation.x = lerp(
 			containerRef.current.rotation.x,
-			-(state.mouse.y / 10),
-			0.5 * delta
+			state.mouse.y / 8,
+			2 * delta
 		);
 		// rotation ← →
 		containerRef.current.rotation.y = lerp(
@@ -60,25 +43,27 @@ export default function ContainerImages() {
 		);
 	});
 
+
+	const fillNumber = AMOUNT_PHOTOS - static_img.length;// 8
+	const restPhotosArr = generateRandomPositions({ count: fillNumber });
+	const randIndex = Math.floor(Math.random() * static_img.length);
+
 	return (
 		<group ref={containerRef}>
 			{static_img.map((url, i) => (
-				<PlaneImage
-					key={Math.random().toString()}
-					img_url={url}
-				/>
+				<PlaneImage key={Math.random().toString()} img_url={url} />
 			))}
-			{randomPos.map((pos, i) => (
+			{restPhotosArr.map((pos, i) => (
 				<PlaneImage
 					key={Math.random().toString()}
-					img_url="/nft0.jpg"
+					img_url={static_img[randIndex]}
 				/>
 			))}
 		</group>
 	);
 }
 
-function PlaneImage({ img_url}: { img_url: string; }) {
+function PlaneImage({ img_url }: { img_url: string }) {
 	const meshRef = useRef<Mesh>(null!);
 	const texture = useLoader(TextureLoader, img_url);
 	const scroll = useScroll();

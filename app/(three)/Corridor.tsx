@@ -17,7 +17,7 @@ import {
 	ShaderMaterial,
 	Vector3,
 } from "three";
-import { useControls } from "leva";
+import { Leva, useControls } from "leva";
 import { Plane, Sparkles, shaderMaterial, useScroll } from "@react-three/drei";
 import ContainerImages from "./ContainerImages";
 import { PlaneShaderMaterial } from "./PlaneShaderMaterial";
@@ -32,8 +32,7 @@ export function Corridor() {
 
 	useFrame((state, delta) => {
 		if (corridorRef.current) {
-			const offset = scroll.offset.toFixed(2);
-			//const prev = corridorRef.current.position.z;
+			const offset = scroll.offset + 1;
 			corridorRef.current.position.setZ(+offset);
 		}
 		if (shaderRef.current) {
@@ -41,8 +40,9 @@ export function Corridor() {
 		}
 	});
 
-	useEffect(() => {
+	// useEffect(() => {
 		/** Custom scroll event that inverts scroll direction effect */
+		// cause some issues
 		function Scroll(event: Event) {
 			const { scrollTop, clientHeight, scrollHeight } = scroll.el;
 			const diff = Math.floor(scrollTop + clientHeight) - scrollHeight;
@@ -53,12 +53,12 @@ export function Corridor() {
 			}
 		}
 
-		scroll.el.addEventListener("scroll", Scroll, {
-			passive: true,
-		});
+		// scroll.el.addEventListener("scroll", Scroll, {
+		// 	passive: true,
+		// });
 
-		return () => scroll.el.removeEventListener("scroll", Scroll);
-	}, []);
+		// return () => scroll.el.removeEventListener("scroll", Scroll);
+	// }, []);
 
 	const stripesControls = useControls("stripes", {
 		alpha: {
@@ -69,19 +69,12 @@ export function Corridor() {
 		colorA: "#48a11d",
 		colorB: "#82f55c",
 	});
-	const sparklesControls = useControls("sparkles", {
-		count: 100,
-		speed: 0.7,
-		opacity: 1,
-		color: "white",
-		scale: [3, 1, 5],
-		position: [0, 0, 1],
-	});
 	const largeBottomTop = 6;
 	const largeSides = 16;
 
 	return (
 		<>
+			{/* <Leva  /> */}
 			<group ref={corridorRef}>
 				{/* bottom */}
 				<mesh position={[0, -1.5, 0]} rotation={[-(Math.PI / 2), 0, 0]}>
@@ -135,13 +128,6 @@ export function Corridor() {
 				/>
 				<planeGeometry args={[6, 3, 3]} />
 			</mesh>
-			<Sparkles
-				color={sparklesControls.color}
-				speed={sparklesControls.speed}
-				count={sparklesControls.count}
-				scale={[3, 2, 5]}
-				position={[0, 0, 1]}
-			/>
 		</>
 	);
 }

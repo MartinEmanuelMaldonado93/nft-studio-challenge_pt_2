@@ -1,24 +1,24 @@
 import { Vector3 } from "three";
 
-const AMOUNT_PHOTOS = 20;
-export const randomPos = generateRandomPositions({
-	count: AMOUNT_PHOTOS,
-	rangeX: 4.5,
-	rangeY: 1.5,
-	rangeZ: 6,
-});
+export const AMOUNT_PHOTOS = 20;
+// export const randomPos = generateRandomPositions({
+// 	count: AMOUNT_PHOTOS,
+// 	rangeX: 4.5,
+// 	rangeY: 1.5,
+// 	rangeZ: 6,
+// });
 
-function generateRandomPositions({
+export function generateRandomPositions({
 	count,
-	rangeX,
-	rangeY,
-	rangeZ,
+	rangeX = 4.5,
+	rangeY = 1.5,
+	rangeZ = 6,
 	rotationX,
 }: {
 	count: number;
-	rangeX: number;
-	rangeY: number;
-	rangeZ: number;
+	rangeX?: number;
+	rangeY?: number;
+	rangeZ?: number;
 	rotationX?: number;
 }): Vector3[] {
 	const positions: Vector3[] = [];
@@ -32,20 +32,6 @@ function generateRandomPositions({
 	}
 	return positions;
 }
-
-export function getRandomPosition(): Vector3 {
-	let rangeX = 4.5;
-	let rangeY = 1.5;
-	let rangeZ = 6;
-	let x: number, y: number, z: number;
-
-	x = Math.random() * rangeX - rangeX / 2; //2.5
-	y = Math.random() * rangeY - 0.4; // 0.5 base floor
-	z = Math.random() * rangeZ - 2.5 - rangeZ / 2;
-
-	return new Vector3(x, y, z);
-}
-
 
 export function getInitialPosition() {
 	let rangeX = 4.5;
@@ -63,10 +49,3 @@ export function getInitialPosition() {
 	
 	return vecResult;
 }
-
-
-// let v = new Vector3(
-// 	(Math.random() * 2 - 1) * 3,
-// 	Math.random() * 2.5 + 0.1,
-// 	(Math.random() * 2 - 1) * 15
-// );
