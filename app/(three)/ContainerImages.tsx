@@ -1,26 +1,17 @@
 "use client";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useScroll } from "@react-three/drei";
 import { useFrame, useLoader } from "@react-three/fiber";
-import {
-	CanvasTexture,
-	Color,
-	Group,
-	MathUtils,
-	Mesh,
-	TextureLoader,
-	Vector3,
-} from "three";
-import { useScroll, useTexture } from "@react-three/drei";
-import { Artwork_SR } from "./(types)/types";
 import { motion } from "framer-motion-3d";
+import { useMemo, useRef, useState } from "react";
+import { Group, MathUtils, Mesh, TextureLoader, Vector3 } from "three";
+import { static_img } from "./(constants)/static";
 import {
 	AMOUNT_PHOTOS,
 	generateRandomPositions,
 	getInitialPosition,
 } from "./(helpers)";
-import { clamp, smoothstep } from "three/src/math/MathUtils";
-import { static_img } from "./(constants)/static";
-const { lerp } = MathUtils;
+import { Artwork_SR } from "./(types)/types";
+const { lerp, clamp } = MathUtils;
 
 export default function ContainerImages() {
 	const containerRef = useRef<Group>(null!);
@@ -31,17 +22,17 @@ export default function ContainerImages() {
 		// rotation ↓ ↑
 		containerRef.current.rotation.x = lerp(
 			containerRef.current.rotation.x,
-			state.mouse.y / 8,
-			2 * delta
+			clamp(state.mouse.y / 8, -1, 1),
+			0.08
 		);
-		// rotation ← →
+
+		// rotation ← → max min
 		containerRef.current.rotation.y = lerp(
 			containerRef.current.rotation.y,
-			state.mouse.x / 4,
-			0.5 * delta
+			clamp(state.mouse.x / 4, -1, 1),
+			0.09
 		);
 	});
-
 	const fillNumber = AMOUNT_PHOTOS - static_img.length; // 8
 	const restPhotosArr = generateRandomPositions({ count: fillNumber });
 	const randIndex = Math.floor(Math.random() * static_img.length);
@@ -78,10 +69,10 @@ function PlaneImage({ img_url }: { img_url: string }) {
 			//avanzo
 			// const offset = prev * (scroll.offset + 1); // by 1
 			const offset = scroll.offset + 1; //  xxxxxxxxxxxxx
-			meshRef.current.position.setZ((prev + scroll.delta));
+			meshRef.current.position.setZ(prev + scroll.delta);
 			// meshRef.current.position.setZ(prev);
 			// meshRef.current.position.setZ(offset);
-			
+
 			//if(scroll.offset < 0 ) doesn't work
 			if (scroll.delta < 0) {
 				// meshRef.current.position.setZ(prev - (scroll.delta - 1)); //xxxxxxxxxxxx
