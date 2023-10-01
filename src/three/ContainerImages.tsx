@@ -35,15 +35,15 @@ export default function ContainerImages() {
 
 	return (
 		<group ref={containerRef}>
-			{/* {static_img.map((url, i) => (
+			{static_img.map((url, i) => (
 				<PlaneImage key={Math.random().toString()} img_url={url} />
-			))} */}
-			{/* {restPhotosArr.map((pos, i) => (
+			))}
+			{restPhotosArr.map((pos, i) => (
 				<PlaneImage
 					key={Math.random().toString()}
 					img_url={static_img[randIndex]}
 				/>
-			))} */}
+			))}
 		</group>
 	);
 }

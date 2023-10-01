@@ -25,7 +25,7 @@ export default function EffectsProcessing() {
 				// bokehScale={config.bokeScale}
 				focusDistance={0.0}
 				focalLength={0.02}
-				bokehScale={3}
+				bokehScale={2}
 			/>
 			<Vignette
 				offset={0.57}

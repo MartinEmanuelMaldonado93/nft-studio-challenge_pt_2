@@ -1,14 +1,20 @@
 "use client";
-import { useRef, useState } from "react";
-import { Loader, Scroll, ScrollControls } from "@react-three/drei";
+import {
+	Loader,
+	// PerformanceMonitor,
+	Scroll,
+	ScrollControls,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { useRef, useState } from "react";
+import style from "./CanvasScene.module.scss";
 import ContainerImages from "./ContainerImages";
 import Corridor from "./Corridor";
-import style from "./CanvasScene.module.scss";
+import EffectsProcessing from "./materials/Effects";
 
 export default function CanvasGallery() {
 	const canvasRef = useRef<HTMLCanvasElement>(null!);
-	const [enabled, enable] = useState(true);
+	const [enabled, setEnable] = useState(true);
 
 	return (
 		<>
@@ -16,6 +22,7 @@ export default function CanvasGallery() {
 				ref={canvasRef}
 				className={style.canvas}
 				camera={{ far: 500, fov: 80, position: [0, 0.3, 4] }}
+				gl={{ pixelRatio: enabled ? window.devicePixelRatio : 1 }}
 			>
 				<ambientLight intensity={0.01} />
 				<fog attach='fog' args={[0x000000, 1, 9]} />
@@ -26,9 +33,8 @@ export default function CanvasGallery() {
 					</Scroll>
 				</ScrollControls>
 				{/** If PerfMon detects a low framerate it will switch back to harsh shadows */}
-				{/* <PerformanceMonitor onDecline={() => enable(false)} /> */}
-				{/* <OrbitControls /> */}
-				{/* <EffectsProcessing /> */}
+				{/* <PerformanceMonitor onDecline={() => setEnable(false)} /> */}
+				<EffectsProcessing />
 			</Canvas>
 			<Loader />
 		</>

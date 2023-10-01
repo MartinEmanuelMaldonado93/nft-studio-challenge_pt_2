@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
-import { useRef, useState } from "react";
-import style from "./Navbar.module.scss";
 import { AnimatePresence, motion } from "framer-motion";
+import React, { useRef, useState } from "react";
 import { FaBarsStaggered } from "react-icons/fa6";
+import style from "./Navbar.module.scss";
+import SuperRareSvg from "./superRareSvg";
 import { itemVariants, parentList } from "./variants-motion";
 
 export default function Navbar() {
@@ -24,13 +24,14 @@ export default function Navbar() {
 				</button>
 			</div>
 			<div className={style.header__logo_center}>
-				NFT STUDIOS
-				{/* <div>NFT STUDIOS</div> */}
-				{/* <SuperRareSvg /> make 3d */}
+				<div>NFT STUDIOS</div>
+				<SuperRareSvg />
 			</div>
 
 			{/* <div className={style.header__logo_center}>SUPER RARE</div> */}
-			<div className={style.header__wallet}>conect your wallet</div>
+			<div className={style.header__wallet}>
+				<span>conect your wallet</span>
+			</div>
 			<AnimatePresence>
 				{openModal && <ModalMenu setOpenModal={setOpenModal} />}
 			</AnimatePresence>
@@ -105,8 +106,8 @@ function ModalMenu({
 			<motion.ul
 				className={style.modal__ul}
 				variants={parentList}
-				initial="closed"
-				animate="open"
+				initial='closed'
+				animate='open'
 			>
 				<motion.li variants={itemVariants}>ARTIST</motion.li>
 				<motion.li variants={itemVariants}>FAQ</motion.li>
@@ -118,8 +119,8 @@ function ModalMenu({
 			<motion.div
 				className={style.modal__footer}
 				variants={parentList}
-				initial="closed"
-				animate="open"
+				initial='closed'
+				animate='open'
 			>
 				<motion.div variants={itemVariants}>JOIN US ON DISCORD</motion.div>
 				<motion.div variants={itemVariants}>VISIT VAULT</motion.div>
@@ -131,4 +132,3 @@ function ModalMenu({
 		</motion.div>
 	);
 }
-
