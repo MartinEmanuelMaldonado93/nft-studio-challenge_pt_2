@@ -9,14 +9,14 @@ export default function Home() {
 		<main className={styles.main}>
 			<Navbar />
 			<CanvasGallery />
-			<Loader
+			{/* <Loader
 				containerStyles={{ border: "3px solid white" }} // Flex layout styles
 				// innerStyles={...inner} // Inner container styles
 				// barStyles={...bar} // Loading-bar styles
 				// dataStyles={...data} // Text styles
 				dataInterpolation={(p) => `Loading ${p.toFixed(2)}%`} // Text
 				initialState={(active) => false} // Initial black out state
-			/>
+			/> */}
 		</main>
 	);
 }
