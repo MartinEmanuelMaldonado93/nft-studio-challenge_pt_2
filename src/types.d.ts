@@ -1,5 +1,5 @@
 /** Artwork Super Rare */
-type Artwork_SR = {
+type Artwork = {
 	artist: string;
 	artwork_id: number;
 	block_number: any;

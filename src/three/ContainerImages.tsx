@@ -1,18 +1,22 @@
 "use client";
-import { useMemo, useRef, useState } from "react";
-import { Group, MathUtils, Mesh, TextureLoader, Vector3 } from "three";
-import { motion } from "framer-motion-3d";
+import { static_img } from "@constants/static";
+import {
+	AMOUNT_PHOTOS,
+	generateRandomPositions,
+	getInitialPosition,
+} from "@helpers";
 import { useScroll } from "@react-three/drei";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { static_img } from "@constants/static";
-import { AMOUNT_PHOTOS, generateRandomPositions, getInitialPosition } from "@helpers";
+import { motion } from "framer-motion-3d";
+import { useMemo, useRef, useState } from "react";
+import { Group, MathUtils, Mesh, TextureLoader, Vector3 } from "three";
 
 const { lerp, clamp } = MathUtils;
 
 export default function ContainerImages() {
 	const containerRef = useRef<Group>(null!);
 	const [temp] = useState(() => new Vector3());
-	const [img, setImg] = useState<Artwork_SR[]>();
+	const [img, setImg] = useState<Artwork[]>();
 
 	useFrame((state, delta) => {
 		// rotation ↓ ↑

@@ -1,4 +1,4 @@
-export const artwork_data: Artwork_SR[] = [
+export const artwork_data: Artwork[] = [
 	{
 		artist: "beeple",
 		artwork_id: 40913,

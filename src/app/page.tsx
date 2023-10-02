@@ -1,22 +1,23 @@
 "use client";
-import { Loader } from "@react-three/drei";
 import Navbar from "@components/navbar/Navbar";
-import CanvasGallery from "@three/CanvasScene";
+import OverlayPresentation from "@components/overlay/OverlayPresentation";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
+import CanvasGallery from "@three/CanvasScene";
 
 export default function Home() {
+	const [overlay, setOverlay] = useState(true);
+
+	useEffect(() => {
+		setTimeout(() => setOverlay(false), 2500);
+	}, []);
+
 	return (
 		<main className={styles.main}>
 			<Navbar />
+			<AnimatePresence>{overlay && <OverlayPresentation />}</AnimatePresence>
 			<CanvasGallery />
-			{/* <Loader
-				containerStyles={{ border: "3px solid white" }} // Flex layout styles
-				// innerStyles={...inner} // Inner container styles
-				// barStyles={...bar} // Loading-bar styles
-				// dataStyles={...data} // Text styles
-				dataInterpolation={(p) => `Loading ${p.toFixed(2)}%`} // Text
-				initialState={(active) => false} // Initial black out state
-			/> */}
 		</main>
 	);
 }

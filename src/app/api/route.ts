@@ -17,14 +17,14 @@ export async function GET(request: Request) {
 		}
 	);
 
-	const imagesResult: Artwork_SR[] = await data.json();
+	const imagesResult: Artwork[] = await data.json();
 	if (!imagesResult) {
 		throw new Error("couldnt fetch");
 	}
 
-	const artFiltered = imagesResult.filter((item) => {
+	const artListFiltered = imagesResult.filter((item) => {
 		return item.image.endsWith(".jpg") || item.image.endsWith(".png");
 	});
 
-	return NextResponse.json({ artFiltered });
+	return NextResponse.json({ artFiltered: artListFiltered });
 }
